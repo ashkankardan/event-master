@@ -28,7 +28,8 @@ header h1 {
 
 .locationMenu, .location {
   /* width: 90%; */
-  background-color: gray;
+  background-color: black;
+  color: gray;
   padding: 0 20px;
   justify-content: space-between;
   text-align: center;
@@ -83,4 +84,14 @@ header h1 {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+.hide {
+  display: none;
+}
+
+
+.selected {
+  background-color: gray;
+  color: black;
 }
