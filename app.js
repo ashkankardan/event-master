@@ -1,13 +1,16 @@
 
+getLocationIP();
 
-// $.ajax({
-//   url: 'http://ip-api.com/json/',
-//   method: "GET",
-//   success: successLocation,
-//   error: function(error) {
-//     console.log(error)
-//   }
-// })
+function getLocationIP() {
+  $.ajax({
+    url: 'http://ip-api.com/json/',
+    method: "GET",
+    success: successLocation,
+    error: function(error) {
+      console.log(error)
+    }
+  })
+}
 
 function successLocation(data) {
   var countryCode = "";
@@ -15,8 +18,8 @@ function successLocation(data) {
   console.log(data)
   city.textContent = data.city;
   country.textContent = data.country;
-  // cityVal = data.city
-  // countryCode = data.countryCode;
+  cityVal = data.city
+  countryCode = data.countryCode;
   console.log(typeof countryCode);
 
   var apiUrl =
@@ -30,23 +33,24 @@ function successLocation(data) {
 
 }
 
-// function getEventData(apiUrl) {
-//   console.log(apiUrl)
-//   $.ajax({
-//     type: "GET",
-//     url: apiUrl,
-//     async: true,
-//     dataType: "json",
-//     success: successEventData,
-//     error: function (xhr, status, err) {
-//       console.log(xhr, status, err);
-//     },
-//   });
-// }
+function getEventData(apiUrl) {
+  console.log(apiUrl)
+  $.ajax({
+    type: "GET",
+    url: apiUrl,
+    async: true,
+    dataType: "json",
+    success: successEventData,
+    error: function (xhr, status, err) {
+      console.log(xhr, status, err);
+    },
+  });
+}
 
 var eventData = ""
 
 function successEventData(data) {
+  eventBox.textContent = ""
   console.log(data)
   eventData = data;
   if (data.page.totalElements < 1) {
@@ -96,27 +100,64 @@ function displayEvents(data) {
 }
 
 
-
+currentMenu.addEventListener("click", currentPage);
 searchMenu.addEventListener('click', searchPage)
 
-function searchPage(e){
-  var eventCurrentTarget = e.currentTarget
-  console.log(eventCurrentTarget)
-  eventCurrentTarget.classList.add('selected')
+
+function currentPage(){
+  searchMenu.classList.remove("selected");
+  currentMenu.classList.add("selected");
+
+  searchBtn.classList.add("hide");
+  city.textContent = ""
+  country.textContent = ""
+  getLocationIP();
+
+}
+
+
+function searchPage(){
+  eventBox.textContent = "";
+  city.textContent = "";
+  country.textContent = "";
+  searchMenu.classList.add("selected");
+  currentMenu.classList.remove("selected");
 
   searchBtn.classList.remove('hide')
 
   var cityInputBox = document.createElement('input')
+  cityInputBox.setAttribute("id", "cityInput");
   city.append(cityInputBox)
 
 
   getCountryList();
+
+  var newSearchText = document.createElement("h3");
+  newSearchText.textContent = "Please search for a city/country name!";
+  eventBox.append(newSearchText);
+
+  searchBtn.addEventListener('click', searchEvents);
 
 
 
 }
 
 
+function searchEvents() {
+  var countrySelect = document.querySelector("#countrySelect");
+  var cityInput = document.querySelector("#cityInput");
+
+
+  var apiUrl =
+    `https://app.ticketmaster.com/discovery/v2/events.json?city=` +
+    cityInput.value +
+    `&countryCode=` +
+    countrySelect.value +
+    `&apikey=vOGcYQeN6gsCpcpVpqGgoVBD3VtifhHM`;
+
+  getEventData(apiUrl);
+
+}
 
 
 
@@ -125,7 +166,7 @@ function getCountryList() {
     url: "https://restcountries.eu/rest/v2",
     method: "GET",
     success: function (data) {
-      console.log(data);
+      // console.log(data);
       createCountryOption(data);
     },
     error: function (err) {
@@ -136,9 +177,12 @@ function getCountryList() {
 
 function createCountryOption(list) {
   var countryList = document.createElement("select");
+  countryList.setAttribute('id', 'countrySelect')
   var countryNone = document.createElement("option");
-  // countryNone.setAttribute('data', 'hidden');
   countryNone.textContent = "None";
+  countryNone.setAttribute('value', '');
+  countryNone.setAttribute('disabled', '');
+  countryNone.setAttribute('selected', '');
   countryList.append(countryNone);
   for(var i = 0; i < list.length; i++) {
     var conuntryOption = document.createElement("option");
