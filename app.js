@@ -1,13 +1,13 @@
 
 
-$.ajax({
-  url: 'http://ip-api.com/json/',
-  method: "GET",
-  success: successLocation,
-  error: function(error) {
-    console.log(error)
-  }
-})
+// $.ajax({
+//   url: 'http://ip-api.com/json/',
+//   method: "GET",
+//   success: successLocation,
+//   error: function(error) {
+//     console.log(error)
+//   }
+// })
 
 function successLocation(data) {
   var countryCode = "";
@@ -30,19 +30,19 @@ function successLocation(data) {
 
 }
 
-function getEventData(apiUrl) {
-  console.log(apiUrl)
-  $.ajax({
-    type: "GET",
-    url: apiUrl,
-    async: true,
-    dataType: "json",
-    success: successEventData,
-    error: function (xhr, status, err) {
-      console.log(xhr, status, err);
-    },
-  });
-}
+// function getEventData(apiUrl) {
+//   console.log(apiUrl)
+//   $.ajax({
+//     type: "GET",
+//     url: apiUrl,
+//     async: true,
+//     dataType: "json",
+//     success: successEventData,
+//     error: function (xhr, status, err) {
+//       console.log(xhr, status, err);
+//     },
+//   });
+// }
 
 var eventData = ""
 
@@ -93,4 +93,58 @@ function displayEvents(data) {
     evDetail.append(evPerformer, evGenre, evPrice, evDate, evLocation);
     eventBox.append(evImg, evDetail)
   }
+}
+
+
+
+searchMenu.addEventListener('click', searchPage)
+
+function searchPage(e){
+  var eventCurrentTarget = e.currentTarget
+  console.log(eventCurrentTarget)
+  eventCurrentTarget.classList.add('selected')
+
+  searchBtn.classList.remove('hide')
+
+  var cityInputBox = document.createElement('input')
+  city.append(cityInputBox)
+
+
+  getCountryList();
+
+
+
+}
+
+
+
+
+
+function getCountryList() {
+  $.ajax({
+    url: "https://restcountries.eu/rest/v2",
+    method: "GET",
+    success: function (data) {
+      console.log(data);
+      createCountryOption(data);
+    },
+    error: function (err) {
+      console.log(err);
+    },
+  });
+}
+
+function createCountryOption(list) {
+  var countryList = document.createElement("select");
+  var countryNone = document.createElement("option");
+  // countryNone.setAttribute('data', 'hidden');
+  countryNone.textContent = "None";
+  countryList.append(countryNone);
+  for(var i = 0; i < list.length; i++) {
+    var conuntryOption = document.createElement("option");
+    conuntryOption.setAttribute("value", list[i].alpha2Code);
+    conuntryOption.textContent = list[i].name;
+    countryList.append(conuntryOption)
+  }
+  country.append(countryList)
 }
