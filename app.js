@@ -64,12 +64,33 @@ function successEventData(data) {
 
 
 function displayEvents(data) {
-  for(var i = 0; i < 1; i++) {
+  for(var i = 0; i < 2; i++) {
+
+    var evDetail = document.createElement('div')
+
     var evImg = document.createElement('div')
     evImg.className = "evImg"
-    evImg.style.backgroundImage = data._embedded.events[0].images[0].url;
+    evImg.style.backgroundImage =
+      `url(` + data._embedded.events[i].images[0].url + `)`;
 
+    var evPerformer = document.createElement('p')
+    evPerformer.textContent = data._embedded.events[i].name
 
+    var evGenre = document.createElement("p");
+    evGenre.textContent =
+      data._embedded.events[i].classifications[0].genre.name;
 
+    var evPrice = document.createElement('p')
+    evPrice.textContent = data._embedded.events[i].priceRanges[0].min, data._embedded.events[i].priceRanges[0].min, data._embedded.events[i].priceRanges[0].currency
+
+    var evDateTime = data._embedded.events[i].dates.start.dateTime.split("T");
+    var evDate = document.createElement('p');
+    evDate.textContent = evDateTime[0] + " at " + evDateTime[1].slice(0, 5);
+
+    var evLocation = document.createElement('p')
+    evLocation.textContent = data._embedded.events[i]._embedded.venues[0].name;
+
+    evDetail.append(evPerformer, evGenre, evPrice, evDate, evLocation);
+    eventBox.append(evImg, evDetail)
   }
 }

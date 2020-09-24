@@ -74,3 +74,13 @@ header h1 {
 #eventBox h3 {
   text-align: center;
 }
+
+
+.evImg {
+  /* background-image: url(https://s1.ticketm.net/dam/a/0d8/35dc7659-f6e9-4ebf-af1c-d6c2f663e0d8_1325241_TABLET_LANDSCAPE_LARGE_16_9.jpg); */
+  width: 200px;
+  height: 200px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
