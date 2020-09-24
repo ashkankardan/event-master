@@ -1,0 +1,86 @@
+
+body {
+  background-color: rgb(48, 48, 48);
+}
+
+.container {
+  /* background-color: aqua; */
+  padding: 20px;
+  width: 90vw;
+  margin: auto;
+}
+
+header {
+  margin: 20px auto;
+  text-align: center;
+}
+
+header h1 {
+  display: inline;
+  background-color: black;
+  color: red;
+}
+
+.master {
+  background-color: red;
+  color: black;
+}
+
+.locationMenu, .location {
+  /* width: 90%; */
+  background-color: gray;
+  padding: 0 20px;
+  justify-content: space-between;
+  text-align: center;
+  display: flex;
+}
+
+.locationMenu .col {
+  /* background-color: cornflowerblue; */
+  width: 50%;
+  border-bottom: 2px solid red;
+}
+
+.location .col {
+  /* background-color: cornflowerblue; */
+  width: 20%;
+}
+
+.location {
+  display: flex;
+  justify-content: space-around;
+
+}
+
+.location h2 {
+  text-align: left;
+}
+
+
+
+#eventBox {
+  box-sizing: border-box;
+  overflow: scroll;
+  margin: auto;
+  background-color: white;
+  width: 90vw;
+  height: 50vh;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#eventBox h3 {
+  text-align: center;
+}
+
+
+.evImg {
+  /* background-image: url(https://s1.ticketm.net/dam/a/0d8/35dc7659-f6e9-4ebf-af1c-d6c2f663e0d8_1325241_TABLET_LANDSCAPE_LARGE_16_9.jpg); */
+  width: 200px;
+  height: 200px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
