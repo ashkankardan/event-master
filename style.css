@@ -6,7 +6,7 @@ body {
 }
 
 .container {
-
+  background-color: black;
 }
 
 header {
@@ -33,12 +33,13 @@ header h1 {
 
 
 .location {
-  background-color: black;
+  /* background-color: black; */
   color: whitesmoke;
   /* justify-content: space-between;
   text-align: center;
   display: flex; */
   margin: auto;
+  padding: 20px 0;
 }
 
 .btn {
@@ -103,4 +104,11 @@ header h1 {
 
 .searchBtnContainer {
   margin: auto;
+}
+
+
+.searchBtn {
+  background-color: rgb(48, 48, 48);
+  background-color: red;
+
 }

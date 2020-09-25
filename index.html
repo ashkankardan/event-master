@@ -28,35 +28,55 @@
 
       <div class="row">
 
-        <div class="col-6 row location">
-          <div class="col-6"><h2>City:</h2></div>
-          <div class="col-6"><h2 id="city"></h2></div>
-<!-- ----------------------- -->
+        <div class="col-8 row location">
+          <!-- <div class="col-6"><h2>City:</h2></div>
+          <div class="col-6"><h2 id="city"></h2></div> -->
+          <!-- <div class="col-6"><h2>Country:</h2></div>
+          <div class="col-6"><h2 id="country"></h2></div> -->
+
+          <!-- ----------------------- -->
 
 
 <div class="input-group mb-3">
   <div class="input-group-prepend">
     <span class="input-group-text" id="inputGroup-sizing-default">City:</span>
   </div>
-  <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+  <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="city">
 </div>
 
-<div class="input-group mb-3">
+<div class="input-group mb-3 countryTextInput">
   <div class="input-group-prepend">
     <span class="input-group-text" id="inputGroup-sizing-default">Country:</span>
   </div>
-  <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+  <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="country">
+</div>
+
+<div class="input-group mb-3 countryDropdownInput">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="inputGroupSelect01">Country</label>
+  </div>
+  <select class="custom-select countryList" id="inputGroupSelect01">
+    <option selected disabled value="">None</option>
+  </select>
 </div>
 
 <!-- ----------------------- -->
-<div class="col-6"><h2>Country:</h2></div>
-<div class="col-6"><h2 id="country"></h2></div>
+
+
+<div class="col-6 text-center searchBtnContainer">
+  <!-- <button type="submit" class="" id="searchBtn">search</button> -->
+
+
+  <!-- <button type="submit" class="btn btn-secondary btn-lg active" id="searchBtn">search</button> -->
+
+  <button type="button" class="btn btn-secondary btn-lg btn-block"  id="searchBtn">Block level button</button>
+
+
+  <!-- <a href="#" class="btn btn-secondary btn-lg active searchBtn" role="button" aria-pressed="true">Search</a> -->
+
 </div>
 
-        <div class="col-6 text-center searchBtnContainer">
-          <button type="submit" class="" id="searchBtn">search</button>
-        </div>
-
+</div>
       </div>
 
 
