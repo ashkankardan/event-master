@@ -16,8 +16,8 @@ function successLocation(data) {
   var countryCode = "";
   var cityVal = "";
   console.log(data)
-  city.textContent = data.city;
-  country.textContent = data.country;
+  city.value = data.city;
+  country.value = data.country;
   cityVal = data.city
   countryCode = data.countryCode;
   console.log(typeof countryCode);
@@ -107,10 +107,11 @@ searchMenu.addEventListener('click', searchPage)
 function currentPage(){
   searchMenu.classList.remove("selected");
   currentMenu.classList.add("selected");
-
+  countryTextInput.classList.remove("d-none");
+  countryDropdownInput.classList.add("d-none");
   searchBtn.classList.add("d-none");
-  city.textContent = ""
-  country.textContent = ""
+  city.value = ""
+  country.value = ""
   getLocationIP();
 
 }
@@ -118,8 +119,10 @@ function currentPage(){
 
 function searchPage(){
   eventBox.textContent = "";
-  city.textContent = "";
-  country.textContent = "";
+  city.value = "";
+  country.value = "";
+  countryTextInput.classList.add("d-none");
+  countryDropdownInput.classList.remove("d-none");
   searchMenu.classList.add("selected");
   currentMenu.classList.remove("selected");
 
@@ -176,19 +179,12 @@ function getCountryList() {
 }
 
 function createCountryOption(list) {
-  var countryList = document.createElement("select");
-  countryList.setAttribute('id', 'countrySelect')
-  var countryNone = document.createElement("option");
-  countryNone.textContent = "None";
-  countryNone.setAttribute('value', '');
-  countryNone.setAttribute('disabled', '');
-  countryNone.setAttribute('selected', '');
-  countryList.append(countryNone);
+
   for(var i = 0; i < list.length; i++) {
     var conuntryOption = document.createElement("option");
     conuntryOption.setAttribute("value", list[i].alpha2Code);
     conuntryOption.textContent = list[i].name;
     countryList.append(conuntryOption)
   }
-  country.append(countryList)
+  // country.append(countryList)
 }

@@ -4,3 +4,6 @@ var eventBox = document.querySelector('#eventBox')
 var searchMenu = document.querySelector("#searchLocation");
 var searchBtn = document.querySelector("#searchBtn");
 var currentMenu = document.querySelector("#currentLocation");
+var countryList = document.querySelector(".countryList");
+var countryTextInput = document.querySelector(".countryTextInput");
+var countryDropdownInput = document.querySelector(".countryDropdownInput");
