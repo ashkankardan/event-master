@@ -7,10 +7,14 @@ body {
 
 .container {
   background-color: black;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 20px;
+
 }
 
 header {
-  margin: 20px auto;
+  margin: 0 auto 20px;
   text-align: center;
   font-family: 'Alfa Slab One', cursive;
   text-transform: uppercase;

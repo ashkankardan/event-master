@@ -109,7 +109,10 @@ function currentPage(){
   currentMenu.classList.add("selected");
   countryTextInput.classList.remove("d-none");
   countryDropdownInput.classList.add("d-none");
-  searchBtn.classList.add("d-none");
+  searchBtn.textContent = "AUTO-LOCATE!"
+  searchBtn.setAttribute("disabled", "");
+
+
   city.value = ""
   country.value = ""
   getLocationIP();
@@ -120,13 +123,14 @@ function currentPage(){
 function searchPage(){
   eventBox.textContent = "";
   city.value = "";
-  country.value = "";
+  countryList.value = "";
   countryTextInput.classList.add("d-none");
   countryDropdownInput.classList.remove("d-none");
   searchMenu.classList.add("selected");
   currentMenu.classList.remove("selected");
 
-  searchBtn.classList.remove('d-none')
+  searchBtn.textContent = "SEARCH!";
+  searchBtn.removeAttribute("disabled", "");
 
   var cityInputBox = document.createElement('input')
   cityInputBox.setAttribute("id", "cityInput");
@@ -147,15 +151,15 @@ function searchPage(){
 
 
 function searchEvents() {
-  var countrySelect = document.querySelector("#countrySelect");
-  var cityInput = document.querySelector("#cityInput");
+  // var country = document.querySelector("#countrySelect");
+  // var cityInput = document.querySelector("#cityInput");
 
 
   var apiUrl =
     `https://app.ticketmaster.com/discovery/v2/events.json?city=` +
-    cityInput.value +
+    city.value +
     `&countryCode=` +
-    countrySelect.value +
+    countryList.value +
     `&apikey=vOGcYQeN6gsCpcpVpqGgoVBD3VtifhHM`;
 
   getEventData(apiUrl);
