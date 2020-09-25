@@ -123,7 +123,7 @@ function currentPage(){
 function searchPage(){
   eventBox.textContent = "";
   city.value = "";
-  country.value = "";
+  countryList.value = "";
   countryTextInput.classList.add("d-none");
   countryDropdownInput.classList.remove("d-none");
   searchMenu.classList.add("selected");
