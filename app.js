@@ -68,7 +68,7 @@ function successEventData(data) {
 
 
 function displayEvents(data) {
-  for(var i = 0; i < 2; i++) {
+  for(var i = 0; i < 10; i++) {
 
     var evItemCol = document.createElement("div");
     evItemCol.className = "row evItem"
