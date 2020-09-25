@@ -4,28 +4,62 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Event Master</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha512-MoRNloxbStBcD8z3M/2BmnT+rg4IsMxPkXaGh2zD6LGNNFE80W3onsAhRcMAMrSoyWL9xD7Ert0men7vR8LUZg==" crossorigin="anonymous" />
+
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
   <div class="container">
     <header class="logo">
-      <h1>Event<span class="master">Master</span></h1>
+      <h1>
+        <span class="spacing">Even</span>t
+        <span class="master">
+          <span class="spacing">Maste</span>r</span>
+      </h1>
     </header>
     <main>
       <div class="row locationMenu">
         <div class="col btn" id="currentLocation"><h2>Current Location</h2></div>
         <div class="col btn" id="searchLocation"><h2>Search</h2></div>
       </div>
-      <div class="row location">
-        <div class="col"><h2>City:</h2></div>
-        <div class="col"><h2 id="city"></h2></div>
+
+      <div class="row">
+
+        <div class="col-6 row location">
+          <div class="col-6"><h2>City:</h2></div>
+          <div class="col-6"><h2 id="city"></h2></div>
+<!-- ----------------------- -->
+
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="inputGroup-sizing-default">City:</span>
+  </div>
+  <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+</div>
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="inputGroup-sizing-default">Country:</span>
+  </div>
+  <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+</div>
+
+<!-- ----------------------- -->
+<div class="col-6"><h2>Country:</h2></div>
+<div class="col-6"><h2 id="country"></h2></div>
+</div>
+
+        <div class="col-6 text-center searchBtnContainer">
+          <button type="submit" class="" id="searchBtn">search</button>
+        </div>
+
       </div>
-      <div class="row location">
-        <div class="col"><h2>Country:</h2></div>
-        <div class="col"><h2 id="country"></h2></div>
-      </div>
-      <button type="submit" class="hide" id="searchBtn">search</button>
+
+
     </main>
     <section id="eventBox"></section>
   </div>

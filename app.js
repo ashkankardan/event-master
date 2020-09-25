@@ -1,5 +1,5 @@
 
-getLocationIP();
+currentPage();
 
 function getLocationIP() {
   $.ajax({
@@ -108,7 +108,7 @@ function currentPage(){
   searchMenu.classList.remove("selected");
   currentMenu.classList.add("selected");
 
-  searchBtn.classList.add("hide");
+  searchBtn.classList.add("d-none");
   city.textContent = ""
   country.textContent = ""
   getLocationIP();
@@ -123,7 +123,7 @@ function searchPage(){
   searchMenu.classList.add("selected");
   currentMenu.classList.remove("selected");
 
-  searchBtn.classList.remove('hide')
+  searchBtn.classList.remove('d-none')
 
   var cityInputBox = document.createElement('input')
   cityInputBox.setAttribute("id", "cityInput");
