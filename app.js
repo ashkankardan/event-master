@@ -70,10 +70,14 @@ function successEventData(data) {
 function displayEvents(data) {
   for(var i = 0; i < 2; i++) {
 
+    var evItemCol = document.createElement("div");
+    evItemCol.className = "row evItem"
+
     var evDetail = document.createElement('div')
+    evDetail.className = "col"
 
     var evImg = document.createElement('div')
-    evImg.className = "evImg"
+    evImg.className = "col evImg"
     evImg.style.backgroundImage =
       `url(` + data._embedded.events[i].images[0].url + `)`;
 
@@ -94,8 +98,12 @@ function displayEvents(data) {
     var evLocation = document.createElement('p')
     evLocation.textContent = data._embedded.events[i]._embedded.venues[0].name;
 
+    var bottomBreakLine = document.createElement("div");
+    bottomBreakLine.className = "col-12 bottomBreakLine";
+
     evDetail.append(evPerformer, evGenre, evPrice, evDate, evLocation);
-    eventBox.append(evImg, evDetail)
+    evItemCol.append(evImg, evDetail, bottomBreakLine);
+    eventBox.append(evItemCol)
   }
 }
 
@@ -145,15 +153,10 @@ function searchPage(){
 
   searchBtn.addEventListener('click', searchEvents);
 
-
-
 }
 
 
 function searchEvents() {
-  // var country = document.querySelector("#countrySelect");
-  // var cityInput = document.querySelector("#cityInput");
-
 
   var apiUrl =
     `https://app.ticketmaster.com/discovery/v2/events.json?city=` +
@@ -190,5 +193,4 @@ function createCountryOption(list) {
     conuntryOption.textContent = list[i].name;
     countryList.append(conuntryOption)
   }
-  // country.append(countryList)
 }
