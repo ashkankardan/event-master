@@ -130,5 +130,16 @@ header h1 {
 
 
 .evItem {
-  margin: 0 100px;
+  width: 80%;
+  margin: auto;
+}
+
+.evDetail {
+  margin-top: 5px;
+}
+
+.evDetail p {
+  /* color: red; */
+  margin: 0 auto;
+  font-weight: bold;
 }

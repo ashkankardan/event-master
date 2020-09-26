@@ -73,7 +73,7 @@ function displayEvents(data) {
     evItemCol.className = "row evItem"
 
     var evDetail = document.createElement('div')
-    evDetail.className = "col"
+    evDetail.className = "col evDetail"
 
     var evImg = document.createElement('div')
     evImg.className = "col evImg"
@@ -107,8 +107,8 @@ function displayEvents(data) {
     bottomBreakLine.className = "col-12 bottomBreakLine";
 
     evDetail.append(evPerformer, evGenre, evPrice, evDate, evLocation);
-    evItemCol.append(evImg, evDetail, bottomBreakLine);
-    eventBox.append(evItemCol)
+    evItemCol.append(evImg, evDetail);
+    eventBox.append(evItemCol, bottomBreakLine);
   }
 }
 
