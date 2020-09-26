@@ -7,3 +7,4 @@ var currentMenu = document.querySelector("#currentLocation");
 var countryList = document.querySelector(".countryList");
 var countryTextInput = document.querySelector(".countryTextInput");
 var countryDropdownInput = document.querySelector(".countryDropdownInput");
+var eventData = "";

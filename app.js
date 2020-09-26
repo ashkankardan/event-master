@@ -47,7 +47,6 @@ function getEventData(apiUrl) {
   });
 }
 
-var eventData = ""
 
 function successEventData(data) {
   eventBox.textContent = ""
@@ -68,7 +67,7 @@ function successEventData(data) {
 
 
 function displayEvents(data) {
-  for(var i = 0; i < 2; i++) {
+  for(var i = 0; i < data._embedded.events.length; i++) {
 
     var evItemCol = document.createElement("div");
     evItemCol.className = "row evItem"
@@ -89,7 +88,13 @@ function displayEvents(data) {
       data._embedded.events[i].classifications[0].genre.name;
 
     var evPrice = document.createElement('p')
-    evPrice.textContent = data._embedded.events[i].priceRanges[0].min, data._embedded.events[i].priceRanges[0].min, data._embedded.events[i].priceRanges[0].currency
+
+    if(data._embedded.events[i].priceRanges) {
+      evPrice.textContent = data._embedded.events[i].priceRanges[0].min + " - " + data._embedded.events[i].priceRanges[0].min + " " + data._embedded.events[i].priceRanges[0].currency
+    } else {
+      evPrice.textContent = "Price info not available!"
+    }
+
 
     var evDateTime = data._embedded.events[i].dates.start.dateTime.split("T");
     var evDate = document.createElement('p');
