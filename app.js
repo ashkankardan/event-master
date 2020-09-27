@@ -1,24 +1,23 @@
-
 currentPage();
 
 function getLocationIP() {
   $.ajax({
-    url: 'http://ip-api.com/json/',
+    url: "http://ip-api.com/json/",
     method: "GET",
     success: successLocation,
-    error: function(error) {
-      console.log(error)
-    }
-  })
+    error: function (error) {
+      console.log(error);
+    },
+  });
 }
 
 function successLocation(data) {
   var countryCode = "";
   var cityVal = "";
-  console.log(data)
+  console.log(data);
   city.value = data.city;
   country.value = data.country;
-  cityVal = data.city
+  cityVal = data.city;
   countryCode = data.countryCode;
   console.log(typeof countryCode);
 
@@ -29,12 +28,11 @@ function successLocation(data) {
     countryCode +
     `&apikey=vOGcYQeN6gsCpcpVpqGgoVBD3VtifhHM`;
 
-    getEventData(apiUrl);
-
+  getEventData(apiUrl);
 }
 
 function getEventData(apiUrl) {
-  console.log(apiUrl)
+  console.log(apiUrl);
   $.ajax({
     type: "GET",
     url: apiUrl,
@@ -47,10 +45,9 @@ function getEventData(apiUrl) {
   });
 }
 
-
 function successEventData(data) {
-  eventBox.textContent = ""
-  console.log(data)
+  eventBox.textContent = "";
+  console.log(data);
   eventData = data;
   if (data.page.totalElements < 1) {
     var noEventText = document.createElement("h3");
@@ -60,47 +57,48 @@ function successEventData(data) {
     console.log("no event");
   } else {
     displayEvents(data);
-    console.log('some event')
-
+    console.log("some event");
   }
 }
 
-
 function displayEvents(data) {
-  for(var i = 0; i < data._embedded.events.length; i++) {
-
+  for (var i = 0; i < data._embedded.events.length; i++) {
     var evItemCol = document.createElement("div");
-    evItemCol.className = "row evItem"
+    evItemCol.className = "row evItem";
 
-    var evDetail = document.createElement('div')
-    evDetail.className = "col evDetail"
+    var evDetail = document.createElement("div");
+    evDetail.className = "col evDetail";
 
-    var evImg = document.createElement('div')
-    evImg.className = "col evImg"
+    var evImg = document.createElement("div");
+    evImg.className = "col evImg";
     evImg.style.backgroundImage =
       `url(` + data._embedded.events[i].images[0].url + `)`;
 
-    var evPerformer = document.createElement('p')
-    evPerformer.textContent = data._embedded.events[i].name
+    var evPerformer = document.createElement("p");
+    evPerformer.textContent = data._embedded.events[i].name;
 
     var evGenre = document.createElement("p");
     evGenre.textContent =
       data._embedded.events[i].classifications[0].genre.name;
 
-    var evPrice = document.createElement('p')
+    var evPrice = document.createElement("p");
 
-    if(data._embedded.events[i].priceRanges) {
-      evPrice.textContent = data._embedded.events[i].priceRanges[0].min + " - " + data._embedded.events[i].priceRanges[0].min + " " + data._embedded.events[i].priceRanges[0].currency
+    if (data._embedded.events[i].priceRanges) {
+      evPrice.textContent =
+        data._embedded.events[i].priceRanges[0].min +
+        " - " +
+        data._embedded.events[i].priceRanges[0].min +
+        " " +
+        data._embedded.events[i].priceRanges[0].currency;
     } else {
-      evPrice.textContent = "Price info not available!"
+      evPrice.textContent = "Price info not available!";
     }
 
-
     var evDateTime = data._embedded.events[i].dates.start.dateTime.split("T");
-    var evDate = document.createElement('p');
+    var evDate = document.createElement("p");
     evDate.textContent = evDateTime[0] + " at " + evDateTime[1].slice(0, 5);
 
-    var evLocation = document.createElement('p')
+    var evLocation = document.createElement("p");
     evLocation.textContent = data._embedded.events[i]._embedded.venues[0].name;
 
     var bottomBreakLine = document.createElement("div");
@@ -112,28 +110,23 @@ function displayEvents(data) {
   }
 }
 
-
 currentMenu.addEventListener("click", currentPage);
-searchMenu.addEventListener('click', searchPage)
+searchMenu.addEventListener("click", searchPage);
 
-
-function currentPage(){
+function currentPage() {
   searchMenu.classList.remove("selected");
   currentMenu.classList.add("selected");
   countryTextInput.classList.remove("d-none");
   countryDropdownInput.classList.add("d-none");
-  searchBtn.textContent = "AUTO-LOCATE!"
+  searchBtn.textContent = "AUTO-LOCATE!";
   searchBtn.setAttribute("disabled", "");
 
-
-  city.value = ""
-  country.value = ""
+  city.value = "";
+  country.value = "";
   getLocationIP();
-
 }
 
-
-function searchPage(){
+function searchPage() {
   eventBox.textContent = "";
   city.value = "";
   countryList.value = "";
@@ -145,10 +138,9 @@ function searchPage(){
   searchBtn.textContent = "SEARCH!";
   searchBtn.removeAttribute("disabled", "");
 
-  var cityInputBox = document.createElement('input')
+  var cityInputBox = document.createElement("input");
   cityInputBox.setAttribute("id", "cityInput");
-  city.append(cityInputBox)
-
+  city.append(cityInputBox);
 
   getCountryList();
 
@@ -156,13 +148,10 @@ function searchPage(){
   newSearchText.textContent = "Please search for a city/country name!";
   eventBox.append(newSearchText);
 
-  searchBtn.addEventListener('click', searchEvents);
-
+  searchBtn.addEventListener("click", searchEvents);
 }
 
-
 function searchEvents() {
-
   var apiUrl =
     `https://app.ticketmaster.com/discovery/v2/events.json?city=` +
     city.value +
@@ -171,17 +160,13 @@ function searchEvents() {
     `&apikey=vOGcYQeN6gsCpcpVpqGgoVBD3VtifhHM`;
 
   getEventData(apiUrl);
-
 }
-
-
 
 function getCountryList() {
   $.ajax({
     url: "https://restcountries.eu/rest/v2",
     method: "GET",
     success: function (data) {
-      // console.log(data);
       createCountryOption(data);
     },
     error: function (err) {
@@ -191,11 +176,10 @@ function getCountryList() {
 }
 
 function createCountryOption(list) {
-
-  for(var i = 0; i < list.length; i++) {
+  for (var i = 0; i < list.length; i++) {
     var conuntryOption = document.createElement("option");
     conuntryOption.setAttribute("value", list[i].alpha2Code);
     conuntryOption.textContent = list[i].name;
-    countryList.append(conuntryOption)
+    countryList.append(conuntryOption);
   }
 }
