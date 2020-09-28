@@ -107,3 +107,14 @@ header h1 {
   margin: 0 auto;
   font-weight: bold;
 }
+
+
+.spinner {
+  margin: 50px auto;
+  background-image: url(./src/img/spinner.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+}

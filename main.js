@@ -16,6 +16,9 @@ currentMenu.addEventListener("click", currentPage);
 searchMenu.addEventListener("click", searchPage);
 
 function getCoords() {
+  var spinner = document.createElement('div')
+  spinner.className = 'spinner'
+  eventBox.append(spinner)
   var geo = navigator.geolocation;
   geo.getCurrentPosition(coordsSuccess, coordsError);
 
@@ -27,7 +30,13 @@ function coordsSuccess(pos) {
 }
 
 function coordsError(err) {
-  console.log(err);
+  if(err.code = 1) {
+    eventBox.textContent = "";
+    var noEventText = document.createElement("h3");
+    noEventText.textContent =
+      "Geolocation Permission Denied! Please search for a location manually";
+    eventBox.append(noEventText);
+  }
 }
 
 function getLocName(posLat, posLog) {
@@ -61,8 +70,6 @@ function successLocation(data) {
     `&countryCode=` +
     countryCode +
     `&apikey=vOGcYQeN6gsCpcpVpqGgoVBD3VtifhHM`;
-
-  console.log(eventUrl)
   getEventData(eventUrl);
 }
 
@@ -147,8 +154,7 @@ function currentPage() {
   countryDropdownInput.classList.add("d-none");
   searchBtn.textContent = "AUTO-LOCATE!";
   searchBtn.setAttribute("disabled", "");
-
-  eventBox.textContent = "Please wait!";
+  eventBox.textContent = "";
   city.value = "";
   country.value = "";
   getCoords();
