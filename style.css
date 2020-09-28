@@ -97,6 +97,8 @@ header h1 {
 
 .evItem {
   width: 80%;
+  /* start with fixed size for iphone 8 */
+  /* add margin (changed bootstreap grid size for larger screen) */
   margin: auto;
 }
 
