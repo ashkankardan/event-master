@@ -16,7 +16,7 @@ searchMenu.addEventListener("click", searchPage);
 
 function getLocationIP() {
   $.ajax({
-    url: "http://ip-api.com/json/",
+    url: "https://ip-api.com/json/",
     method: "GET",
     success: successLocation,
     error: function (error) {
