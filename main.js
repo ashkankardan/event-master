@@ -7,46 +7,69 @@ var currentMenu = document.querySelector("#currentLocation");
 var countryList = document.querySelector(".countryList");
 var countryTextInput = document.querySelector(".countryTextInput");
 var countryDropdownInput = document.querySelector(".countryDropdownInput");
-
+var posLat = null;
+var posLog = null;
 
 currentPage();
 
 currentMenu.addEventListener("click", currentPage);
 searchMenu.addEventListener("click", searchPage);
 
-function getLocationIP() {
-  $.ajax({
-    url: "https://ip-api.com/json/",
-    method: "GET",
-    success: successLocation,
-    error: function (error) {
-      console.error(error);
-    },
-  });
+function getCoords() {
+  var geo = navigator.geolocation;
+  geo.getCurrentPosition(coordsSuccess, coordsError);
+
 }
+function coordsSuccess(pos) {
+  posLat = pos.coords.latitude;
+  posLog = pos.coords.longitude;
+  getLocName(posLat, posLog);
+}
+
+function coordsError(err) {
+  console.log(err);
+}
+
+function getLocName(posLat, posLog) {
+    $.ajax({
+      url:
+        `https://api.opencagedata.com/geocode/v1/json?q=` +
+        posLat +
+        `+` +
+        posLog +
+        `&key=1256ef0d57484e4cb43ec7d801fa5367`,
+      method: "GET",
+      success: successLocation,
+      error: function (err) {
+        console.error(err);
+      },
+    });
+}
+
 
 function successLocation(data) {
   var countryCode = "";
   var cityVal = "";
-  city.value = data.city;
-  country.value = data.country;
-  cityVal = data.city;
-  countryCode = data.countryCode;
+  city.value = data.results[0].components.province;
+  country.value = data.results[0].components.country;
+  cityVal = data.results[0].components.province;
+  countryCode = data.results[0].components["ISO_3166-1_alpha-2"];
 
-  var apiUrl =
+  var eventUrl =
     `https://app.ticketmaster.com/discovery/v2/events.json?city=` +
     cityVal +
     `&countryCode=` +
     countryCode +
     `&apikey=vOGcYQeN6gsCpcpVpqGgoVBD3VtifhHM`;
 
-  getEventData(apiUrl);
+  console.log(eventUrl)
+  getEventData(eventUrl);
 }
 
-function getEventData(apiUrl) {
+function getEventData(eventUrl) {
   $.ajax({
     type: "GET",
-    url: apiUrl,
+    url: eventUrl,
     async: true,
     dataType: "json",
     success: successEventData,
@@ -125,9 +148,10 @@ function currentPage() {
   searchBtn.textContent = "AUTO-LOCATE!";
   searchBtn.setAttribute("disabled", "");
 
+  eventBox.textContent = "Please wait!";
   city.value = "";
   country.value = "";
-  getLocationIP();
+  getCoords();
 }
 
 function searchPage() {
