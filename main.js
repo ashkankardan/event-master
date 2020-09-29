@@ -60,6 +60,7 @@ function successLocation(data) {
   var countryCode = "";
   var cityVal = "";
   country.value = data.results[0].components.country;
+  countryCode = data.results[0].components["ISO_3166-1_alpha-2"];
 
   cityVal = data.results[0].components.city;
   city.value = data.results[0].components.city;
@@ -69,7 +70,7 @@ function successLocation(data) {
     city.value = data.results[0].components.province;
   }
 
-  countryCode = data.results[0].components["ISO_3166-1_alpha-2"];
+  
 
   var eventUrl =
     `https://app.ticketmaster.com/discovery/v2/events.json?city=` +
