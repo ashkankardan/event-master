@@ -59,9 +59,16 @@ function getLocName(posLat, posLog) {
 function successLocation(data) {
   var countryCode = "";
   var cityVal = "";
-  city.value = data.results[0].components.province;
   country.value = data.results[0].components.country;
-  cityVal = data.results[0].components.province;
+
+  cityVal = data.results[0].components.city;
+  city.value = data.results[0].components.city;
+
+  if (cityVal == undefined) {
+    cityVal = data.results[0].components.province;
+    city.value = data.results[0].components.province;
+  }
+
   countryCode = data.results[0].components["ISO_3166-1_alpha-2"];
 
   var eventUrl =
