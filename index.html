@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Event Master</title>
     <link
       rel="stylesheet"
@@ -31,29 +31,16 @@
           <div class="col btn" id="currentLocation">
             <h3>Current Location</h3>
           </div>
-          <div class="col btn" id="searchLocation"><h3>Search Location</h3></div>
+          <div class="col btn" id="searchLocation">
+            <h3>Search Location</h3>
+          </div>
         </div>
 
         <div class="row">
           <div class="col-8 row location">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default"
-                  >City:</span
-                >
-              </div>
-              <input
-                type="text"
-                class="form-control"
-                aria-label="Default"
-                aria-describedby="inputGroup-sizing-default"
-                id="city"
-              />
-            </div>
-
             <div class="input-group mb-3 countryTextInput">
               <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default"
+                <span class="input-group-text" id="inputGroup-sizing-default-country"
                   >Country:</span
                 >
               </div>
@@ -68,14 +55,68 @@
 
             <div class="input-group mb-3 countryDropdownInput">
               <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01"
+                <label class="input-group-text" for="inputGroupSelect01-country"
                   >Country</label
                 >
               </div>
-              <select class="custom-select countryList" id="inputGroupSelect01">
+              <select class="custom-select countryList" id="inputGroupSelect01-country">
                 <option selected value="US">United States of America</option>
               </select>
             </div>
+
+
+
+
+            <!-- states: -->
+
+            <div class="input-group mb-3 stateTextInput">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default-state"
+                  >State:</span
+                >
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Default"
+                aria-describedby="inputGroup-sizing-default"
+                id="state"
+              />
+            </div>
+
+
+
+
+
+            <div class="input-group mb-3 stateDropdownInput">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01-state"
+                  >State:</label
+                >
+              </div>
+              <select class="custom-select stateList" id="inputGroupSelect01-state">
+                <option selected value="">--</option>
+              </select>
+            </div>
+
+            <!--  -->
+
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default-city"
+                  >City:</span
+                >
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Default"
+                aria-describedby="inputGroup-sizing-default"
+                id="city"
+              />
+            </div>
+
+
 
             <div class="col text-center searchBtnContainer">
               <button
@@ -89,8 +130,7 @@
           </div>
         </div>
       </main>
-      <section id="eventBox">
-      </section>
+      <section id="eventBox"></section>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>

@@ -1,14 +1,21 @@
 var city = document.querySelector('#city')
 var country = document.querySelector('#country')
+var state = document.querySelector('#state')
+var stateListVal = ""
 var eventBox = document.querySelector('#eventBox')
 var searchMenu = document.querySelector("#searchLocation");
 var searchBtn = document.querySelector("#searchBtn");
 var currentMenu = document.querySelector("#currentLocation");
 var countryList = document.querySelector(".countryList");
+var stateList = document.querySelector(".stateList");
 var countryTextInput = document.querySelector(".countryTextInput");
 var countryDropdownInput = document.querySelector(".countryDropdownInput");
+var stateTextInput = document.querySelector(".stateTextInput");
+var stateDropdownInput = document.querySelector(".stateDropdownInput");
 var posLat = null;
 var posLog = null;
+
+var tempdata = null
 
 currentPage();
 
@@ -51,6 +58,7 @@ function getLocName(posLat, posLog) {
       success: successLocation,
       error: function (err) {
         console.error(err);
+        displayFailedRequest();
       },
     });
 }
@@ -58,23 +66,37 @@ function getLocName(posLat, posLog) {
 
 function successLocation(data) {
   var countryCode = "";
+  var stateCode = "";
   var cityVal = "";
   country.value = data.results[0].components.country;
   countryCode = data.results[0].components["ISO_3166-1_alpha-2"];
 
-  cityVal = data.results[0].components.city;
-  city.value = data.results[0].components.city;
-
-  if (cityVal == undefined) {
-    cityVal = data.results[0].components.province;
-    city.value = data.results[0].components.province;
+  if(countryCode === "US") {
+    state.value = data.results[0].components.state;
+    stateCode = data.results[0].components.state_code;
+  } else {
+    state.value = data.results[0].components.state;
+    stateCode = "";
   }
 
-  
+  if (data.results[0].components.province) {
+    cityVal = data.results[0].components.province;
+    city.value = data.results[0].components.province;
+  } else if(data.results[0].components.city) {
+    city.value = data.results[0].components.city
+    cityVal = data.results[0].components.city
+  } else {
+    city.value = data.results[0].components.town
+    cityVal = data.results[0].components.town
+  }
+
+
 
   var eventUrl =
     `https://app.ticketmaster.com/discovery/v2/events.json?city=` +
     cityVal +
+    `&stateCode=` +
+    stateCode +
     `&countryCode=` +
     countryCode +
     `&apikey=vOGcYQeN6gsCpcpVpqGgoVBD3VtifhHM`;
@@ -90,6 +112,7 @@ function getEventData(eventUrl) {
     success: successEventData,
     error: function (xhr, status, err) {
       console.error(xhr, status, err);
+      displayFailedRequest();
     },
   });
 }
@@ -97,6 +120,7 @@ function getEventData(eventUrl) {
 function successEventData(data) {
   eventBox.textContent = "";
   if (data.page.totalElements < 1) {
+    eventBox.classList.add("white-bg")
     var noEventText = document.createElement("h3");
     noEventText.textContent =
       "No event data available for this location! Please try searching for a different location";
@@ -107,6 +131,7 @@ function successEventData(data) {
 }
 
 function displayEvents(data) {
+  eventBox.classList.remove("white-bg");
   for (var i = 0; i < data._embedded.events.length; i++) {
     var evItemCol = document.createElement("div");
     evItemCol.className = "row evItem";
@@ -139,9 +164,15 @@ function displayEvents(data) {
       evPrice.textContent = "Price info not available!";
     }
 
-    var evDateTime = data._embedded.events[i].dates.start.dateTime.split("T");
+    if (data._embedded.events[i].dates.start.dateTime) {
+      var evDateTime = (data._embedded.events[i].dates.start.dateTime.split("T"))[1].slice(0, 5);
+      var evDateDate = (data._embedded.events[i].dates.start.dateTime.split("T"))[0]
+    } else {
+      var evDateTime = "00:00"
+      var evDateDate = data._embedded.events[i].dates.start.localDate
+    }
     var evDate = document.createElement("p");
-    evDate.textContent = evDateTime[0] + " at " + evDateTime[1].slice(0, 5);
+    evDate.textContent = evDateDate + " at " + evDateTime;
 
     var evLocation = document.createElement("p");
     evLocation.textContent = data._embedded.events[i]._embedded.venues[0].name;
@@ -160,9 +191,12 @@ function currentPage() {
   currentMenu.classList.add("selected");
   countryTextInput.classList.remove("d-none");
   countryDropdownInput.classList.add("d-none");
+  stateTextInput.classList.remove("d-none");
+  stateDropdownInput.classList.add("d-none");
   searchBtn.textContent = "AUTO-LOCATE!";
   searchBtn.setAttribute("disabled", "");
   eventBox.textContent = "";
+  eventBox.classList.add("white-bg");
   city.value = "";
   country.value = "";
   getCoords();
@@ -174,21 +208,40 @@ function searchPage() {
   countryList.value = "";
   countryTextInput.classList.add("d-none");
   countryDropdownInput.classList.remove("d-none");
+  stateTextInput.classList.add("d-none");
+  stateDropdownInput.classList.remove("d-none");
   searchMenu.classList.add("selected");
   currentMenu.classList.remove("selected");
 
   searchBtn.textContent = "SEARCH!";
   searchBtn.removeAttribute("disabled", "");
 
+  getCountryList();
+  createStateOption()
+
   var cityInputBox = document.createElement("input");
   cityInputBox.setAttribute("id", "cityInput");
   city.append(cityInputBox);
 
-  getCountryList();
 
   var newSearchText = document.createElement("h3");
   newSearchText.textContent = "Please search for a city/country name!";
   eventBox.append(newSearchText);
+
+  stateList.addEventListener("change", ()=>{
+    stateListVal = stateList.value
+  })
+
+  countryList.addEventListener("change", ()=>{
+    if(countryList.value !== "US") {
+      stateList.setAttribute("disabled", "")
+      stateListVal = ""
+    } else {
+      stateList.removeAttribute("disabled", "")
+    }
+  })
+
+
 
   searchBtn.addEventListener("click", searchEvents);
 }
@@ -197,10 +250,13 @@ function searchEvents() {
   var apiUrl =
     `https://app.ticketmaster.com/discovery/v2/events.json?city=` +
     city.value +
+    `&stateCode=` +
+    stateListVal +
     `&countryCode=` +
     countryList.value +
     `&apikey=vOGcYQeN6gsCpcpVpqGgoVBD3VtifhHM`;
 
+  console.log(apiUrl)
   getEventData(apiUrl);
 }
 
@@ -213,6 +269,7 @@ function getCountryList() {
     },
     error: function (err) {
       console.error(err);
+      displayFailedRequest()
     },
   });
 }
@@ -224,4 +281,30 @@ function createCountryOption(list) {
     conuntryOption.textContent = list[i].name;
     countryList.append(conuntryOption);
   }
+}
+
+function createStateOption() {
+  var stateNamesList = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
+  var stateCodesList = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
+
+  for(var i = 0; i < stateCodesList.length; i++) {
+    var stateCodeOption = document.createElement('option')
+    stateCodeOption.setAttribute("value", stateCodesList[i])
+    stateCodeOption.textContent = stateNamesList[i]
+    stateList.append(stateCodeOption)
+  }
+
+
+};
+
+
+
+
+function displayFailedRequest(){
+  eventBox.textContent = "";
+  eventBox.classList.add("white-bg")
+  var failedText = document.createElement("h3");
+  failedText.textContent =
+      `Request failed! Please try again.`;
+    eventBox.append(failedText);
 }
